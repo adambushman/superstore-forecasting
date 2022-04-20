@@ -14,6 +14,3 @@ Sahoo, Rohit (2020). Superstore Sales Dataset: Predict Sales using Time Series
 [Kaggle Dataset](https://www.kaggle.com/datasets/rohitsahoo/sales-forecasting)
 
 Accessed 4/19/2022 via Kaggle
-
-## Current Site
-[Humerus Analysis Blog Post](https://www.adam-bushman.com/blog_posts/blog_humerus-analysis_003.html)
