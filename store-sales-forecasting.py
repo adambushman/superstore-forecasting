@@ -41,7 +41,7 @@ decompose_result = seasonal_decompose(group_by_date_sales, model='multiplicative
 
 # Time-series plot
 ax = sns.lineplot(data = group_by_date_sales, x = 'orderYrMon', y = 'Sales', linewidth = 3)
-ax.set_title(label = "4 Year Sales by Month", fontsize = 20)
+ax.set_title(label = "4 Year Sales by Month", fontsize = 3)
 ax.set(xlabel=None)
 plt.xticks(rotation=45)
 plt.show()
