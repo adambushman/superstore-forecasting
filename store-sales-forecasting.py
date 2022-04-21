@@ -38,6 +38,15 @@ group_by_date_sales.index=pd.to_datetime(group_by_date_sales.index, format = '%Y
 
 group_by_date_sales.index.freq = 'MS'
 decompose_result = seasonal_decompose(group_by_date_sales, model='multiplicative')
+
+# Time-series plot
+ax = sns.lineplot(data = group_by_date_sales, x = 'orderYrMon', y = 'Sales', linewidth = 3)
+ax.set_title(label = "4 Year Sales by Month", fontsize = 20)
+ax.set(xlabel=None)
+plt.xticks(rotation=45)
+plt.show()
+
+# Decomposition plot
 decompose_result.plot()
 plt.show()
 
@@ -59,12 +68,8 @@ plt.show()
 sns.boxplot(x = 'Category', y = 'logSales', data = predDF).set_title(label = "Product Category vs Sales [Log Scale]")
 plt.show()
 
-# Forecast features
-forFeatures = ['Order Date']
-forResponse = ['Sales']
-
-# Sales Forecast plot
-sns.boxplot(x = 'Category', y = 'Sales', data = predDF).set_title(label = "Monthly Sales | 2015-2019")
+# Sales vs Region
+sns.boxplot(x = 'Region', y = 'logSales', data = predDF).set_title(label = "Product Region vs Sales [Log Scale]")
 plt.show()
 
 
