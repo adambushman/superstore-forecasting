@@ -6,6 +6,11 @@ import time
 import numpy as np
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.seasonal import seasonal_decompose
+from sklearn.feature_selection import RFECV
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.neural_network import MLPRegressor
+from sklearn.preprocessing import StandardScaler
 
 rawData = pd.read_csv('train-store-data.csv')
 
@@ -73,3 +78,28 @@ sns.boxplot(x = 'Region', y = 'logSales', data = predDF).set_title(label = "Prod
 plt.show()
 
 
+# RFE
+
+y = predDF['logSales']
+xDum = pd.concat([pd.get_dummies(predDF['Category']), pd.get_dummies(predDF['Ship Mode']), pd.get_dummies(predDF['Segment']), pd.get_dummies(predDF['Region'])], axis = 1)
+xLin = xDum.drop(columns=['Technology', 'Central', 'Consumer', 'First Class'])
+xScale =  pd.DataFrame(data = StandardScaler().fit_transform(xDum), columns = xDum.columns)
+
+# Linear model
+linModel = LinearRegression()
+rfeLin = RFECV(linModel)
+rfeLinModel = rfeLin.fit(xLin, y)
+scoreLin = rfeLinModel.score(xLin, y)
+indxLin = [i for i, l in enumerate(list(rfeLinModel.support_)) if l == True]
+
+
+# Decision tree model
+dtModel = DecisionTreeRegressor()
+rfeDT = RFECV(dtModel)
+rfeDTModel = rfeDT.fit(xDum, y)
+scoreDT = rfeDTModel.score(xDum, y)
+indxDT = [i for i, l in enumerate(list(rfeDTModel.support_)) if l == True]
+
+
+print('Score:', round(scoreLin,3),'| The top Linear features are:', list(xLin.columns[indxLin]))
+print('Score:', round(scoreDT,3),'| The top Decision Tree features are:', list(xDum.columns[indxDT]))
